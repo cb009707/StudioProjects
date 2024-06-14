@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "32107684147",
+    "project_id": "fir-f0384",
+    "storage_bucket": "fir-f0384.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:32107684147:android:e156999311bd67b795de46",
+        "android_client_info": {
+          "package_name": "com.example.travel"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBigwrzFjy28SzcMIMEQcrg6UyaKOF6WjQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
