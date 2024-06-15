@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -14,13 +15,44 @@ class _WeatherPageState extends State<weatherpage> {
   @override
   void initState() {
     super.initState();
-    fetchWeather();
+    _determinePosition();
   }
 
-  Future<void> fetchWeather() async {
-    final double latitude = 25.2582;
-    final double longitude = 55.3047;
+  Future<void> _determinePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
 
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      setState(() {
+        _weather = 'Location services are disabled.';
+      });
+      return;
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        setState(() {
+          _weather = 'Location permissions are denied.';
+        });
+        return;
+      }
+    }
+
+    if (permission == LocationPermission.deniedForever) {
+      setState(() {
+        _weather = 'Location permissions are permanently denied.';
+      });
+      return;
+    }
+
+    Position position = await Geolocator.getCurrentPosition();
+    fetchWeather(position.latitude, position.longitude);
+  }
+
+  Future<void> fetchWeather(double latitude, double longitude) async {
     try {
       final response = await http.get(Uri.parse(
           'https://api.openweathermap.org/data/2.5/weather?lat=$latitude&lon=$longitude&appid=266e53234afd8f3b8149be9640d6ed98&units=metric'));
@@ -31,7 +63,6 @@ class _WeatherPageState extends State<weatherpage> {
         final String description = data['weather'][0]['description'];
         final int humidity = data['main']['humidity'];
 
-        // update weather information and image
         setState(() {
           _weather =
           'Temperature: $temperature°C\nCondition: $description\nHumidity: $humidity%';
@@ -49,7 +80,6 @@ class _WeatherPageState extends State<weatherpage> {
     }
   }
 
-  // function to set weather image based on weather condition
   void _setWeatherImage(String description) {
     switch (description) {
       case 'clear sky':
@@ -74,7 +104,7 @@ class _WeatherPageState extends State<weatherpage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Dubai Weather'),
+        title: Text('Weather'),
       ),
       body: Container(
         color: Colors.grey[200],
@@ -89,7 +119,6 @@ class _WeatherPageState extends State<weatherpage> {
                 width: 100,
               ),
               SizedBox(height: 30),
-
               Text(
                 _weather,
                 textAlign: TextAlign.center,

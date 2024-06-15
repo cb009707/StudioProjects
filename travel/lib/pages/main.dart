@@ -22,7 +22,7 @@ Future<void> main() async {
   }
 
   runApp(
-    MultiProvider(  // use MultiProvider to handle multiple providers
+    MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (context) => ThemeProvider()),
         ChangeNotifierProvider(create: (context) => LikedPlacesProvider()),
