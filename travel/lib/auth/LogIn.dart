@@ -17,7 +17,6 @@ class Log extends StatelessWidget {
       body: SingleChildScrollView(
         child: Stack(
           children: [
-            // Background image
             Image.asset(
               'assets/lo.jpg',
               fit: BoxFit.cover,

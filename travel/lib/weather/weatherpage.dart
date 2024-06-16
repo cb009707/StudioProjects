@@ -113,11 +113,6 @@ class _WeatherPageState extends State<weatherpage> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                _weatherImage,
-                height: 100,
-                width: 100,
-              ),
               SizedBox(height: 30),
               Text(
                 _weather,

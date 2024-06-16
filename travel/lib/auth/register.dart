@@ -1,7 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:travel/auth/LogIn.dart';
-import 'package:travel/widgets/Landmarks.dart';
 import 'auth.dart';
 
 class register extends StatelessWidget {
