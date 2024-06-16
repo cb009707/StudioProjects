@@ -45,11 +45,14 @@ class HomePageState extends State<CompassPage> {
     final angle = -1 * pi / 180 * degrees;
 
     return Scaffold(
-      backgroundColor: Colors.grey[850],
+      backgroundColor: Colors.grey[900],
       appBar: AppBar(
-        backgroundColor: Colors.grey[850],
+        backgroundColor: Colors.black,
         centerTitle: true,
-        title: const Text('Compass'),
+        title: const Text(
+          'Compass',
+          style: TextStyle(color: Colors.white),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(20.0),
@@ -59,19 +62,77 @@ class HomePageState extends State<CompassPage> {
             Text(
               '${degrees.toStringAsFixed(0)}°',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 48,
                 fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
             ),
             Expanded(
               child: Center(
-                child: Transform.rotate(
-                  angle: angle,
-                  child: Image.asset(
-                    'assets/compass.jpg',
-                    height: MediaQuery.of(context).size.height * 0.8,
-                  ),
+                child: Stack(
+                  alignment: Alignment.center,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.height * 0.5,
+                      height: MediaQuery.of(context).size.height * 0.5,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Colors.white, width: 2),
+                      ),
+                    ),
+                    Positioned(
+                      top: 20,
+                      child: Text(
+                        'N',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      bottom: 20,
+                      child: Text(
+                        'S',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      right: 20,
+                      child: Text(
+                        'E',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Positioned(
+                      left: 20,
+                      child: Text(
+                        'W',
+                        style: TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                    Transform.rotate(
+                      angle: angle,
+                      child: Icon(
+                        Icons.navigation,
+                        color: Colors.red,
+                        size: MediaQuery.of(context).size.height * 0.2,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ),

@@ -11,6 +11,7 @@ class weatherpage extends StatefulWidget {
 class _WeatherPageState extends State<weatherpage> {
   String _weather = 'Loading...';
   String _weatherImage = 'assets/loading.png';
+  bool _hasError = false;
 
   @override
   void initState() {
@@ -64,18 +65,20 @@ class _WeatherPageState extends State<weatherpage> {
         final int humidity = data['main']['humidity'];
 
         setState(() {
-          _weather =
-          'Temperature: $temperature°C\nCondition: $description\nHumidity: $humidity%';
+          _weather = 'Temperature: $temperature°C\nCondition: $description\nHumidity: $humidity%';
           _setWeatherImage(description);
+          _hasError = false;
         });
       } else {
         setState(() {
           _weather = 'Failed to load weather data';
+          _hasError = true;
         });
       }
     } catch (error) {
       setState(() {
         _weather = 'No internet connection, please connect to wifi or data to view!!!';
+        _hasError = true;
       });
     }
   }
@@ -104,25 +107,39 @@ class _WeatherPageState extends State<weatherpage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Weather'),
+        title: Text('Weather App'),
+        backgroundColor: Colors.blueAccent,
       ),
       body: Container(
-        color: Colors.grey[200],
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [Colors.blue, Colors.lightBlueAccent],
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+          ),
+        ),
         padding: EdgeInsets.all(20),
         child: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              if (!_hasError && _weatherImage != null)
+                Image.asset(
+                  _weatherImage,
+                  height: 150,
+                  width: 150,
+                ),
               SizedBox(height: 30),
               Text(
                 _weather,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
               ),
+              SizedBox(height: 20),
             ],
           ),
         ),
